@@ -37,11 +37,11 @@ public class LollipopScanManager extends ScanManager {
     public void scan(ReadableArray serviceUUIDs, final int scanSeconds, ReadableMap options,  Callback callback) {
         ScanSettings.Builder scanSettingsBuilder = new ScanSettings.Builder();
         List<ScanFilter> filters = new ArrayList<>();
-        
+
         if (options.hasKey("scanMode")) {
             scanSettingsBuilder.setScanMode(options.getInt("scanMode"));
         }
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (options.hasKey("numberOfMatches")) {
                 scanSettingsBuilder.setNumOfMatches(options.getInt("numberOfMatches"));
@@ -54,7 +54,7 @@ public class LollipopScanManager extends ScanManager {
         if (options.hasKey("reportDelay")) {
             scanSettingsBuilder.setReportDelay(options.getInt("reportDelay"));
         }
-        
+
         if (serviceUUIDs.size() > 0) {
             for(int i = 0; i < serviceUUIDs.size(); i++){
 				ScanFilter filter = new ScanFilter.Builder().setServiceUuid(new ParcelUuid(UUIDHelper.uuidFromString(serviceUUIDs.getString(i)))).build();
@@ -62,23 +62,25 @@ public class LollipopScanManager extends ScanManager {
                 Log.d(bleManager.LOG_TAG, "Filter service: " + serviceUUIDs.getString(i));
             }
         }
-        
+
         getBluetoothAdapter().getBluetoothLeScanner().startScan(filters, scanSettingsBuilder.build(), mScanCallback);
+        Log.d(bleManager.LOG_TAG, "Scan should have started");
         if (scanSeconds > 0) {
             Thread thread = new Thread() {
                 private int currentScanSession = scanSessionId.incrementAndGet();
-                
+
                 @Override
                 public void run() {
-                    
+
                     try {
                         Thread.sleep(scanSeconds * 1000);
                     } catch (InterruptedException ignored) {
                     }
-                    
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d(bleManager.LOG_TAG, "Scan should be stopped");
                             BluetoothAdapter btAdapter = getBluetoothAdapter();
                             // check current scan session was not stopped
                             if (scanSessionId.intValue() == currentScanSession) {
@@ -90,9 +92,9 @@ public class LollipopScanManager extends ScanManager {
                             }
                         }
                     });
-                    
+
                 }
-                
+
             };
             thread.start();
         }

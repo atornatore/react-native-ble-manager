@@ -42,6 +42,7 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 	public static final String LOG_TAG = "ReactNativeBleManager";
 	private static final int ENABLE_REQUEST = 539;
 
+
 	private class BondRequest {
 		private String uuid;
 		private String pin;
@@ -253,7 +254,7 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 	}
 
 	@ReactMethod
-	public void connect(String peripheralUUID, Callback callback) {
+	public void connect(String peripheralUUID,  boolean autoConnect, Callback callback) {
 		Log.d(LOG_TAG, "Connect to: " + peripheralUUID);
 
 		Peripheral peripheral = retrieveOrCreatePeripheral(peripheralUUID);
@@ -261,7 +262,7 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 			callback.invoke("Invalid peripheral uuid");
 			return;
 		}
-		peripheral.connect(callback, getCurrentActivity());
+		peripheral.connect(callback, getCurrentActivity(), autoConnect);
 	}
 
 	@ReactMethod
@@ -595,8 +596,8 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 			return;
 		}
 
-		List<BluetoothDevice> periperals = getBluetoothManager().getConnectedDevices(GATT);
-		for (BluetoothDevice entry : periperals) {
+		List<BluetoothDevice> peripherals = getBluetoothManager().getConnectedDevices(GATT);
+		for (BluetoothDevice entry : peripherals) {
 			Peripheral peripheral = savePeripheral(entry);
 			WritableMap jsonBundle = peripheral.asWritableMap();
 			map.pushMap(jsonBundle);

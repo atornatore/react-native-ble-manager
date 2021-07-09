@@ -6,6 +6,10 @@
 
 This is a porting of https://github.com/don/cordova-plugin-ble-central project to React Native.
 
+## IMPORTANT
+
+Modified for my personal needings, please refer to the [original project](https://github.com/innoveit/react-native-ble-manager/).
+
 ## Requirements
 
 RN 0.60+

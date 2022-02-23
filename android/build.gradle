@@ -9,7 +9,7 @@ buildscript {
         }
 
         dependencies {
-            classpath("com.android.tools.build:gradle:3.6.1")
+            classpath("com.android.tools.build:gradle:4.2.2")
         }
     }
 }
@@ -23,7 +23,7 @@ android {
 	compileSdkVersion safeExtGet("compileSdkVersion", 30)
 
 	defaultConfig {
-		minSdkVersion safeExtGet("minSdkVersion", 19)
+		minSdkVersion safeExtGet("minSdkVersion", 21)
 	}
 	lintOptions {
 		abortOnError false
@@ -36,8 +36,8 @@ repositories {
 	jcenter()
 	maven {
 		// All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-		url "$rootDir/../node_modules/react-native/android"
-		// To test url "$rootDir/../example/node_modules/react-native/android"
+		//url "$rootDir/../node_modules/react-native/android"
+		url "$rootDir/../example/node_modules/react-native/android"
 	}
 }
 

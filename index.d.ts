@@ -37,7 +37,7 @@ declare module "react-native-ble-manager" {
     options?: ScanOptions
   ): Promise<void>;
   export function stopScan(): Promise<void>;
-  export function connect(peripheralID: string): Promise<void>;
+  export function connect(peripheralID: string, autoConnect?: boolean): Promise<void>;
   export function disconnect(
     peripheralID: string,
     force?: boolean
@@ -120,7 +120,7 @@ declare module "react-native-ble-manager" {
   export function getBondedPeripherals(): Promise<Peripheral[]>;
   export function removePeripheral(peripheralID: string): Promise<void>;
 
-  
+
   export interface Service {
     uuid: string;
   }
@@ -147,7 +147,7 @@ declare module "react-native-ble-manager" {
     characteristic: string;
     service: string;
     descriptors?: Descriptor[];
-    
+
   }
 
   export interface PeripheralInfo extends Peripheral {
